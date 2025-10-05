@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import uo.ri.cws.application.service.mechanic.MechanicCrudService;
 import uo.ri.cws.application.service.mechanic.crud.commands.AddMechanic;
+import uo.ri.cws.application.service.mechanic.crud.commands.DeleteMechanic;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListAllMechanics;
+import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanic;
+import uo.ri.cws.application.service.mechanic.crud.commands.UpdateMechanic;
 import uo.ri.util.exception.BusinessException;
 
 public class MechanicCrudServiceImpl implements MechanicCrudService {
@@ -20,26 +23,32 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 
 	@Override
 	public void delete(String mechanicId) throws BusinessException {
-		// TODO Auto-generated method stub
+		
+		DeleteMechanic dm = new DeleteMechanic(mechanicId);
+		dm.execute();
 
 	}
 
 	@Override
 	public void update(MechanicDto dto) throws BusinessException {
-		// TODO Auto-generated method stub
-
+		
+		UpdateMechanic um = new UpdateMechanic(dto);
+		um.execute();
+		
 	}
 
 	@Override
 	public Optional<MechanicDto> findById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
+		//TODO... ns como implementarlo para q con solo una clase pueda buscar
+		// de dos maneras distintas sin modificar las declaraciones de los metodos
 		return Optional.empty();
 	}
 
 	@Override
 	public Optional<MechanicDto> findByNif(String nif) throws BusinessException {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		ListMechanic lm = new ListMechanic(nif);
+		return lm.execute();
 	}
 
 	@Override

@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import org.hsqldb.lib.List;
+import java.util.List;
 
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
 import uo.ri.util.jdbc.Jdbc;
@@ -14,7 +13,7 @@ import uo.ri.util.jdbc.Jdbc;
 public class ListAllMechanics {
 	// no need to get any info from the ui 
 	
-	private static final String TMECHANICS_FINDALL = "SELECT ID, NAME, "
+	private static final String TMECHANICS_FINDALL = "SELECT ID, NAME,"
             + "SURNAME, NIF, VERSION FROM TMECHANICS";
 	
 	public List<MechanicDto> execute() {

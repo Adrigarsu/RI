@@ -35,7 +35,7 @@ public class AddMechanic {
 	public MechanicDto execute () {
 		
 		// Process
-        try (Connection c = Jdbc.createThreadConnection();) {
+        try (Connection c = Jdbc.getCurrentConnection();) {
             try (PreparedStatement pst = c.prepareStatement(TMECHANICS_ADD)) {
                 pst.setString(1, dto.id);
                 pst.setString(2, dto.nif);

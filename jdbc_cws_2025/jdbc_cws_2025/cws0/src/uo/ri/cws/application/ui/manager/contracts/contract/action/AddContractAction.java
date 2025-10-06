@@ -1,7 +1,6 @@
 package uo.ri.cws.application.ui.manager.contracts.contract.action;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import uo.ri.util.console.Console;
 import uo.ri.util.exception.BusinessException;

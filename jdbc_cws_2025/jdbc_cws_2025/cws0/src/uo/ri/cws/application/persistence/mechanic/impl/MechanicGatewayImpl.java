@@ -11,7 +11,7 @@ import java.util.Optional;
 import uo.ri.cws.application.persistence.PersistenceException;
 import uo.ri.cws.application.persistence.mechanic.MechanicGateway;
 import uo.ri.cws.application.persistence.mechanic.MechanicRecordAssembler;
-import uo.ri.util.exception.BusinessException;
+import uo.ri.cws.application.service.mechanic.crud.MechanicDtoAssembler;
 import uo.ri.util.jdbc.Jdbc;
 import uo.ri.util.jdbc.Queries;
 
@@ -21,8 +21,29 @@ public class MechanicGatewayImpl implements MechanicGateway {
 
 	
 	@Override
-	public void add(MechanicRecord t) throws PersistenceException {
-		// TODO Auto-generated method stub
+	public void add(MechanicRecord record) throws PersistenceException {
+		try {
+        	Connection c = Jdbc.getCurrentConnection();
+		try (PreparedStatement pst = c.prepareStatement(Queries.getSQLSentence("TMECHANICS_ADD"))) {
+		    pst.setString(1, record.id);
+		    pst.setString(2, record.nif);
+		    pst.setString(3, record.name);
+		    pst.setString(4, record.surname);
+		    pst.setLong(5, record.version);
+			    
+		    //manage parameters
+		    pst.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+		    pst.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+		    pst.setString(8, "ENABLED");               
+			
+		    pst.executeUpdate();
+		}
+		
+		} catch (SQLException e) {
+		   	throw new RuntimeException(e);
+		}
+		
+       
 
 	}
 
@@ -81,8 +102,22 @@ public class MechanicGatewayImpl implements MechanicGateway {
 
 	@Override
 	public Optional<MechanicRecord> findByNif(String nif) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		Optional<MechanicRecord> om = Optional.empty();
+		try  {
+			Connection c = Jdbc.getCurrentConnection();
+            try (PreparedStatement pst = c
+                    .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDBYNIF"))) {
+                pst.setString(1, nif);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                    	om =  Optional.of(MechanicRecordAssembler.toRecord(rs));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        }
+		return om;
 	}
 
 }

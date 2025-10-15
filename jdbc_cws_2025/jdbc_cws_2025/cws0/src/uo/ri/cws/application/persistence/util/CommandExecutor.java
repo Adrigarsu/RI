@@ -4,14 +4,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import uo.ri.cws.application.persistence.PersistenceException;
-import uo.ri.cws.application.persistence.util.executor.Jdbc;
 import uo.ri.util.exception.BusinessException;
 
 public class CommandExecutor {
 
     public <T> T execute(Command<T> cmd) throws BusinessException {
 
-        try (Connection c = Jdbc.createThreadConnection();) {
+        try (Connection c = uo.ri.util.jdbc.Jdbc.createThreadConnection();) {
             c.setAutoCommit(false);
 
             try {

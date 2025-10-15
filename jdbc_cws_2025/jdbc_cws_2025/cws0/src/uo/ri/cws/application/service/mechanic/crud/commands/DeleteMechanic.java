@@ -26,7 +26,7 @@ public class DeleteMechanic {
 	public void execute() {
 		
 			
-	      try (Connection c = Jdbc.createThreadConnection();) {
+	   try (Connection c = Jdbc.createThreadConnection();) {
 	      try (PreparedStatement pst = c
 	              .prepareStatement(TMECHANICS_DELETE)) {
 	          pst.setString(1, mechanicId);

@@ -21,7 +21,7 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 		
 		 //instance of the bussines object
         AddMechanic am  = new AddMechanic(dto);
-		return am.execute();
+		return cmdEx.execute(am);
 	}
 
 	@Override

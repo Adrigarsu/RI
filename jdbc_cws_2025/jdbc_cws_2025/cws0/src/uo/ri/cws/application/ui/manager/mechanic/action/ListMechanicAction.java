@@ -12,15 +12,11 @@ public class ListMechanicAction implements Action {
     @Override
     public void execute() throws BusinessException {
 
-        // Get info
         String nif = Console.readString("nif");
         
         MechanicCrudService mcs = Factories.service.forMechanicCrudService();
-
-        Console.println("\nMechanic information \n");
-        
         mcs.findByNif(nif);
 
-        
+        Console.println("\nMechanic information \n");
     }
 }

@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import uo.ri.cws.application.persistence.util.Command;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
 import uo.ri.util.jdbc.Jdbc;
+import uo.ri.util.jdbc.Queries;
 
-public class ListAllMechanics {
+public class ListAllMechanics implements Command<List<MechanicDto>> {
 	// no need to get any info from the ui 
-	
-	private static final String TMECHANICS_FINDALL = "SELECT ID, NAME,"
-            + "SURNAME, NIF, VERSION FROM TMECHANICS";
+
 	
 	public List<MechanicDto> execute() {
 		List<MechanicDto> mechanics = new ArrayList<MechanicDto>();
@@ -22,7 +22,7 @@ public class ListAllMechanics {
 		 // Process
         try (Connection c = Jdbc.createThreadConnection()) {
             try (PreparedStatement pst = c
-                    .prepareStatement(TMECHANICS_FINDALL)) {
+                    .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDALL"))) {
                 try (ResultSet rs = pst.executeQuery();) {
                     while (rs.next()) {
                         MechanicDto m = new MechanicDto();

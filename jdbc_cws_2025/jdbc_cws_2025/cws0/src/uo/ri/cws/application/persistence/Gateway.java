@@ -3,6 +3,8 @@ package uo.ri.cws.application.persistence;
 import java.util.List;
 import java.util.Optional;
 
+import uo.ri.cws.application.persistence.mechanic.MechanicGateway.MechanicRecord;
+
 /**
  *	Common interface for a gateway that provides common operations for any gateway.
  *  That is, CRUD operations: add, remove, update, find by id and find all.

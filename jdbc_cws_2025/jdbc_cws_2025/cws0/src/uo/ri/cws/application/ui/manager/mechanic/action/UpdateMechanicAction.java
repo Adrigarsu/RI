@@ -21,7 +21,6 @@ public class UpdateMechanicAction implements Action {
     public void execute() throws BusinessException {
 
         // Get info
-        String id = Console.readString("Type mechahic id to update");
 
         MechanicDto dto = new MechanicDto();
         dto.id = Console.readString("Type mechahic id to update");
@@ -35,12 +34,5 @@ public class UpdateMechanicAction implements Action {
         Console.println("Mechanic updated");
     }
 
-    private void updateMechanic(String id, String name, String surname) {
-
-        
-    }
-
-    private void checkMechanicExists(String id) throws BusinessException {
-        
-    }
+ 
 }

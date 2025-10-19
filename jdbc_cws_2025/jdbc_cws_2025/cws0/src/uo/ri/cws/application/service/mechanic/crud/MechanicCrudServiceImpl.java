@@ -25,10 +25,10 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 	}
 
 	@Override
-	public void delete(String mechanicId) throws BusinessException {
+	public void delete(String id ) throws BusinessException {
 		
-		DeleteMechanic dm = new DeleteMechanic(mechanicId);
-		dm.execute();
+		DeleteMechanic dm = new DeleteMechanic(id);
+		cmdEx.execute(dm);
 
 	}
 
@@ -36,29 +36,32 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 	public void update(MechanicDto dto) throws BusinessException {
 		
 		UpdateMechanic um = new UpdateMechanic(dto);
-		cmdEx.execute(new UpdateMechanic(dto));
+		cmdEx.execute(um);
 		
 	}
 
-	@Override
-	public Optional<MechanicDto> findById(String id) throws BusinessException {
-		//TODO... ns como implementarlo para q con solo una clase pueda buscar
-		// de dos maneras distintas sin modificar las declaraciones de los metodos
-		return Optional.empty();
-	}
 
 	@Override
-	public Optional<MechanicDto> findByNif(String nif) throws BusinessException {
-		
+	public Optional<MechanicDto> findById(String nif) throws BusinessException {
+		Optional<MechanicDto> dto =  Optional.empty();
 		ListMechanic lm = new ListMechanic(nif);
-		return lm.execute();
+		dto = Optional.of(cmdEx.execute(lm));
+		return dto;
 	}
-
+	
 	@Override
 	public List<MechanicDto> findAll() throws BusinessException {
 		ListAllMechanics lam = new ListAllMechanics();
 		
-		return lam.execute();
+		return cmdEx.execute(lam);
 	}
+
+	@Override
+	public Optional<MechanicDto> findByNif(String nif) throws BusinessException {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+
 
 }

@@ -47,15 +47,5 @@ public class UpdateMechanic implements Command<Void> {
 		return null;
 		
 	}
-	
-	private void updateMechanic(String id, String name, String surname) {
-		// TODO Auto-generated method stub
-	
-	}
-	
-	private void checkMechanicExists(String id) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

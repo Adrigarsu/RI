@@ -9,6 +9,7 @@ import uo.ri.cws.application.service.mechanic.crud.commands.AddMechanic;
 import uo.ri.cws.application.service.mechanic.crud.commands.DeleteMechanic;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListAllMechanics;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanic;
+import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanicByNif;
 import uo.ri.cws.application.service.mechanic.crud.commands.UpdateMechanic;
 import uo.ri.util.exception.BusinessException;
 
@@ -42,24 +43,25 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 
 
 	@Override
-	public Optional<MechanicDto> findById(String nif) throws BusinessException {
-		Optional<MechanicDto> dto =  Optional.empty();
-		ListMechanic lm = new ListMechanic(nif);
-		dto = Optional.of(cmdEx.execute(lm));
-		return dto;
+	public Optional<MechanicDto> findById(String id) throws BusinessException {
+		
+		ListMechanic lm = new ListMechanic(id);
+		
+		return cmdEx.execute(lm);
 	}
 	
 	@Override
 	public List<MechanicDto> findAll() throws BusinessException {
 		ListAllMechanics lam = new ListAllMechanics();
-		
+
 		return cmdEx.execute(lam);
 	}
 
 	@Override
 	public Optional<MechanicDto> findByNif(String nif) throws BusinessException {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		ListMechanicByNif lnif = new ListMechanicByNif(nif);
+		return cmdEx.execute(lnif);
 	}
 
 

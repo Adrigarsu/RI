@@ -15,8 +15,6 @@ public class ListAllMechanicsAction implements Action {
     public void execute() throws BusinessException {
 
         Console.println("\nList of mechanics \n");
-
-        ListAllMechanics lam = new ListAllMechanics();
         
         MechanicCrudService mcs = new MechanicCrudServiceImpl();
         

@@ -70,7 +70,7 @@ public class MechanicGatewayImpl implements MechanicGateway {
         try {
         	Connection c = Jdbc.getCurrentConnection();
             try (PreparedStatement pst = c
-                    .prepareStatement(Queries.getSQLSentence("TMEVHANICS_UPDATE"))) {
+                    .prepareStatement(Queries.getSQLSentence("TMECHANICS_UPDATE"))) {
                 pst.setString(1, t.name);
                 pst.setString(2, t.surname);
                 pst.setTimestamp(3, new Timestamp(
@@ -87,43 +87,50 @@ public class MechanicGatewayImpl implements MechanicGateway {
 
 	@Override
 	public Optional<MechanicRecord> findById(String id) throws PersistenceException {
-		Optional<MechanicRecord> om = Optional.empty();
-		try  {
-			Connection c = Jdbc.getCurrentConnection();
-            try (PreparedStatement pst = c
-                    .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDBYID"))) {
-                pst.setString(1, id);
-                try (ResultSet rs = pst.executeQuery()) {
-                    if (rs.next()) {
-                    	return Optional.of(MechanicRecordAssembler.toRecord(rs));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
-		return Optional.empty();
+		
+		 try  {
+		        Connection c = Jdbc.getCurrentConnection();
+		        try (PreparedStatement pst = c
+		                .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDBYID"))) {
+		            pst.setString(1, id);
+		            try (ResultSet rs = pst.executeQuery()) {
+		                if (rs.next()) {
+		                    return Optional.of(MechanicRecordAssembler.toRecord(rs));
+		                }
+		            }
+		        }
+		    } catch (SQLException e) {
+		        throw new PersistenceException(e);
+		    }
+		    
+		    return Optional.empty();
 	}
 
 	@Override
 	public List<MechanicRecord> findAll() throws PersistenceException {
-		List<MechanicRecord> mechanics = new ArrayList<>();
-		try  {
-			Connection c = Jdbc.getCurrentConnection();
-            try (PreparedStatement pst = c
-                    .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDALL"))) {
-                try (ResultSet rs = pst.executeQuery()) {
-                    while (rs.next()) {
-                    	mechanics.add(MechanicRecordAssembler.toRecord(rs));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
-		return mechanics;
+	    List<MechanicRecord> mechanics = new ArrayList<>();
+	    try (Connection c = Jdbc.createThreadConnection()) {
+	        try (PreparedStatement pst = c
+	                .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDALL"))) {
+	            try (ResultSet rs = pst.executeQuery()) {
+	                while (rs.next()) {
+	          
+	                    MechanicRecord record = new MechanicRecord();
+	                    record.id = rs.getString("id");
+	                    record.name = rs.getString("name");
+	                    record.surname = rs.getString("surname");
+	                    record.nif = rs.getString("nif");
+	                    record.version = rs.getLong("version");
+	                    
+	                    mechanics.add(record);
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new PersistenceException(e);
+	    }
+	    return mechanics;
 	}
-
 	@Override
 	public Optional<MechanicRecord> findByNif(String nif) {
 		Optional<MechanicRecord> om = Optional.empty();

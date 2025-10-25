@@ -7,19 +7,35 @@ import uo.ri.cws.application.persistence.mechanic.MechanicGateway.MechanicRecord
 
 public class MechanicRecordAssembler {
 
-	public static MechanicRecord toRecord(ResultSet rs) throws SQLException{
-		MechanicRecord dto = new MechanicRecord();
-		dto.id = rs.getString(1);
-		dto.name = rs.getString(2);
-		dto.surname = rs.getString(3);
-		dto.nif = rs.getString(4);
-		dto.version = rs.getLong(5);
-		dto.createdAt = rs.getTimestamp(6).toLocalDateTime();
-		dto.updatedAt = rs.getTimestamp(7).toLocalDateTime();
-		dto.entityState = rs.getString(8);
-		
-		return dto;
-		
-	}
+	 public static MechanicRecord toRecord(ResultSet rs) throws SQLException {
+	        MechanicRecord dto = new MechanicRecord();
+	        dto.id = rs.getString("id");
+	        dto.name = rs.getString("name");
+	        dto.surname = rs.getString("surname");
+	        dto.nif = rs.getString("nif");
+	        dto.version = rs.getLong("version");
+	        
+	        try {
+	            java.sql.Timestamp createdAt = rs.getTimestamp("createdAt");
+	            dto.createdAt = createdAt != null ? createdAt.toLocalDateTime() : null;
+	        } catch (SQLException e) {
+	            dto.createdAt = null;
+	        }
+	        
+	        try {
+	            java.sql.Timestamp updatedAt = rs.getTimestamp("updatedAt");
+	            dto.updatedAt = updatedAt != null ? updatedAt.toLocalDateTime() : null;
+	        } catch (SQLException e) {
+	            dto.updatedAt = null;
+	        }
+	        
+	        try {
+	            dto.entityState = rs.getString("entityState");
+	        } catch (SQLException e) {
+	            dto.entityState = null;
+	        }
+	        
+	        return dto;
+	    }
 	
 }

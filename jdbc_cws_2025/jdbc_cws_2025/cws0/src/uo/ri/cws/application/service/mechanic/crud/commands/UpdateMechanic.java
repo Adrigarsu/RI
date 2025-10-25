@@ -21,29 +21,35 @@ public class UpdateMechanic implements Command<Void> {
 	private MechanicGateway mg = Factories.persistence.forMechanic();
 	
 	public UpdateMechanic(MechanicDto dto) {
-		 ArgumentChecks.isNotNull(dto);
-		 ArgumentChecks.isNotBlank(dto.nif);
-		 ArgumentChecks.isNotBlank(dto.name);
-		 ArgumentChecks.isNotBlank(dto.surname);
-		 
-		 //Generation of the identity (could be done here or in the database)
-		 dto.id = UUID.randomUUID().toString();
-		 dto.version = 1L;
+		ArgumentChecks.isNotNull(dto);
+        ArgumentChecks.isNotNull(dto.id);
+        ArgumentChecks.isNotBlank(dto.id);
+        ArgumentChecks.isNotNull(dto.name);
+        ArgumentChecks.isNotBlank(dto.name);
+        ArgumentChecks.isNotNull(dto.surname);
+        ArgumentChecks.isNotBlank(dto.surname);
+        ArgumentChecks.isNotNull(dto.nif);
+        ArgumentChecks.isNotBlank(dto.nif);
+        
+
 		this.dto=dto;
 	}
 
 
 	public Void execute() throws BusinessException {
 		
-        //checkMechanicExists(dto.id); transform into ...
-		Optional<MechanicRecord> om = mg.findById(dto.id);
-		BusinessChecks.exists(om, "The mechanic does not exist");
-		//check that the version is updated
-		BusinessChecks.hasVersion(dto.version, om.get().version);
-		
-		//in case that the exception is not thrown, the update is execute
-        //updateMechanic(dto.id, dto.name, dto.surname);
-		mg.update(MechanicDtoAssembler.toRecord(dto));
+		 Optional<MechanicRecord> op = mg.findById(dto.id);
+	        BusinessChecks.exists(op, "The mechanic does not exist");
+
+	        MechanicRecord record = op.get();
+	        BusinessChecks.isTrue(record.version == dto.version, "The mechanic has been updated by another user");
+
+	        record.name = dto.name;
+	        record.surname = dto.surname;
+	        record.nif = dto.nif;
+	        record.version = record.version + 1;
+
+	        mg.update(record);
 		return null;
 		
 	}

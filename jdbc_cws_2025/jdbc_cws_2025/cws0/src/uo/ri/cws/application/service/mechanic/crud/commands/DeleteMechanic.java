@@ -11,7 +11,7 @@ import uo.ri.util.console.Console;
 import uo.ri.util.exception.BusinessChecks;
 import uo.ri.util.exception.BusinessException;
 
-public class DeleteMechanic implements Command<MechanicDto> {
+public class DeleteMechanic implements Command<Void> {
 	
 	private String id;
 	private MechanicGateway mg;
@@ -30,6 +30,7 @@ public class DeleteMechanic implements Command<MechanicDto> {
 	   mg.remove(id);
 	   Console.println("Mechanic deleted");
 	   return null;
+	   
 	}
 	
 	

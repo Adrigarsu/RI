@@ -1,5 +1,6 @@
 package uo.ri.cws.application.service;
 
+import uo.ri.cws.application.service.cashier.InvoicingServiceImpl;
 import uo.ri.cws.application.service.client.ClientCrudService;
 import uo.ri.cws.application.service.client.ClientHistoryService;
 import uo.ri.cws.application.service.contract.ContractCrudService;
@@ -23,12 +24,14 @@ public class ServiceFactory {
 	        return new MechanicCrudServiceImpl();
 	    }
 
+   
+    public InvoicingService forCreateInvoiceService() {
+        return new InvoicingServiceImpl();
+    }
+    
     // the not yet implemented section ------------------------------
 
     
-    public InvoicingService forCreateInvoiceService() {
-        throw new NotYetImplementedException();
-    }
 
     public VehicleCrudService forVehicleCrudService() {
         throw new NotYetImplementedException();

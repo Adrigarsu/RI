@@ -1,7 +1,11 @@
 package uo.ri.cws.application.persistence;
 
+import uo.ri.cws.application.persistence.invoice.InvoiceGateway;
+import uo.ri.cws.application.persistence.invoice.InvoiceGatewayImpl;
 import uo.ri.cws.application.persistence.mechanic.MechanicGateway;
 import uo.ri.cws.application.persistence.mechanic.impl.MechanicGatewayImpl;
+import uo.ri.cws.application.persistence.workorder.WorkOrderGateway;
+import uo.ri.cws.application.persistence.workorder.WorkOrderGatewayImpl;
 
 public class PersistenceFactory {
 
@@ -9,13 +13,13 @@ public class PersistenceFactory {
         return new MechanicGatewayImpl();
     }
 
-//    public WorkOrderGateway forWorkOrder() {
-//        return new WorkOrderGatewayImpl();
-//    }
-//
-//    public InvoiceGateway forInvoice() {
-//        return new InvoiceGatewayImpl();
-//    }
+    public WorkOrderGateway forWorkOrder() {
+        return new WorkOrderGatewayImpl();
+    }
+
+    public InvoiceGateway forInvoice() {
+        return new InvoiceGatewayImpl();
+    }
 //
 //    public InterventionGateway forIntervention() {
 //        return new InterventionGatewayImpl();

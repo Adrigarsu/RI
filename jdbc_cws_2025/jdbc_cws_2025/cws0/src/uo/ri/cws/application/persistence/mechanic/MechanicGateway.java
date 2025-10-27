@@ -1,6 +1,7 @@
 package uo.ri.cws.application.persistence.mechanic;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import uo.ri.cws.application.persistence.Gateway;
@@ -24,4 +25,8 @@ public interface MechanicGateway extends Gateway<MechanicRecord>{
 		public String name;
 		public String surname;
 	}
+
+
+
+	public List<MechanicRecord> findMechanicsWithValidContract();
 }

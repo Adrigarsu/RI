@@ -57,14 +57,14 @@ public class FindNotInvoicedWorkOrdersByClientAction implements Action {
     	List<InvoicingWorkOrderDto> orders = is.findNotInvoicedWorkOrdersByClientNif(nif);
     	if(!orders.isEmpty()) {
     		System.out.println("SOMETHING found on DB");
-    	for (InvoicingWorkOrderDto invoicingWorkOrderDto : orders) {
-    		Console.printf(
-                  "\t%s \t%-40.40s \t%s \t%-12.12s \t%.2f\n",
-                  invoicingWorkOrderDto.id,
-                  invoicingWorkOrderDto.state,
-                  invoicingWorkOrderDto.description,
-                  invoicingWorkOrderDto.date,
-                  invoicingWorkOrderDto.amount);
+    		for (InvoicingWorkOrderDto invoicingWorkOrderDto : orders) {
+	    		Console.printf(
+	                  "\t%s \t%-40.40s \t%s \t%-12.12s \t%.2f\n",
+	                  invoicingWorkOrderDto.id,
+	                  invoicingWorkOrderDto.description,  // descripción
+	                  invoicingWorkOrderDto.date,         // fecha
+	                  invoicingWorkOrderDto.state,        // estado
+	                  invoicingWorkOrderDto.amount);
 		}
     	
     	}else {System.out.println("Nothing found on DB");}

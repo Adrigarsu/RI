@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>cws0</artifactId>
-	<name>cws0</name>
+	<name>cws0_uo300042</name>
 
 	<dependencies>
 		<dependency>

@@ -16,34 +16,11 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 	
 	
 
-	@Override
-	public void add(WorkOrderRecord t) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void remove(String id) throws PersistenceException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void update(WorkOrderRecord t) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Optional<WorkOrderRecord> findById(String id) throws PersistenceException {
-		// TODO Auto-generated method stub
-		return Optional.empty();
-	}
-
-	@Override
-	public List<WorkOrderRecord> findAll() throws PersistenceException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
@@ -80,6 +57,79 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 	    } catch (SQLException e) {
 	        throw new RuntimeException(e);
 	    }
+	}
+
+	@Override
+	public List<WorkOrderRecord> findByMechanicId(String mechanicId) {
+	    // ✅ CAMBIA Jdbc.getCurrentConnection() por Jdbc.createThreadConnection()
+	    try (Connection c = Jdbc.createThreadConnection();
+	         PreparedStatement pst = c.prepareStatement("SELECT * FROM TWORKORDERS WHERE mechanic_id = ?")) {
+	        
+	        pst.setString(1, mechanicId);
+	        
+	        List<WorkOrderRecord> result = new ArrayList<>();
+	        try (ResultSet rs = pst.executeQuery()) {
+	            while (rs.next()) {
+	                result.add(extractWorkOrderFrom(rs));
+	            }
+	        }
+	        return result;
+	        
+	    } catch (SQLException e) {
+	        throw new PersistenceException(e);
+	    }
+	}
+
+	private WorkOrderRecord extractWorkOrderFrom(ResultSet rs) throws SQLException {
+	    WorkOrderRecord record = new WorkOrderRecord();
+	    record.id = rs.getString("id");
+	    record.amount = rs.getDouble("amount");
+	    record.createdAt = rs.getTimestamp("createdat");
+	    record.date = rs.getTimestamp("date");
+	    record.description = rs.getString("description");
+	    record.entityState = rs.getString("entitystate");
+	    record.state = rs.getString("state");
+	    record.updatedAt = rs.getTimestamp("updatedat");
+	    record.version = rs.getLong("version");
+	    record.invoice_id = rs.getString("invoice_id");
+	    record.mechanic_id = rs.getString("mechanic_id");
+	    record.vehicle_id = rs.getString("vehicle_id");
+	    return record;
+	}
+
+	@Override
+	public void add(uo.ri.cws.application.persistence.workorder.WorkOrderRecord t) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(uo.ri.cws.application.persistence.workorder.WorkOrderRecord t) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+	@Override
+	public Optional<uo.ri.cws.application.persistence.workorder.WorkOrderRecord> findById(String id)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+
+
+
+
+
+	@Override
+	public List<uo.ri.cws.application.persistence.workorder.WorkOrderRecord> findAll() throws PersistenceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

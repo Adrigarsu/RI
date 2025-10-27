@@ -60,6 +60,7 @@ public interface ContractTypeCrudService {
 	 * @throws BusinessException DOES NOT
 	 */
 	List<ContractTypeDto> findAll() throws BusinessException;
+	List<ContractTypeSummaryDto> findEmployeesWithContractType(String contractTypeId) throws BusinessException;
 
 
 	public class ContractTypeDto {
@@ -69,5 +70,18 @@ public interface ContractTypeCrudService {
 		public String name;
 		public double compensationDays;
 	}
+	
+	public class ContractTypeSummaryDto{
+		 public String mechanicId;
+	        public String mechanicName;
+	        public String mechanicSurname;
+	        public String mechanicNif;
+	        public Double annualBaseSalary;
+	       
+	        public Long totalEmployees;
+	        public Double totalAnnualBaseSalary;
+	}
+
+
 
 }

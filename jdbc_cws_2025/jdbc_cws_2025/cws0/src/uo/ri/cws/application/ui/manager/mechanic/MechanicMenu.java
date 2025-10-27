@@ -12,7 +12,8 @@ public class MechanicMenu extends BaseMenu {
                 { "Update mechanic", UpdateMechanicAction.class },
                 { "Delete mechanic", DeleteMechanicAction.class },
                 { "List mechanic", ListMechanicAction.class },
-                { "List mechanics", ListAllMechanicsAction.class }, };
+                { "List mechanics", ListAllMechanicsAction.class },
+                { "List mechanic with valid contract", ListMechanicWithValidContractAction.class },};
     }
 
 }

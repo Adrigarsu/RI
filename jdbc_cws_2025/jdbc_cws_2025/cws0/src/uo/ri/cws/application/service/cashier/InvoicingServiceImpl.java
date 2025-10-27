@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import uo.ri.cws.application.persistence.util.CommandExecutor;
+import uo.ri.cws.application.service.cashier.commands.CreateInvoice;
 import uo.ri.cws.application.service.cashier.commands.FindNotInvoicedWorkOrdersByClinetNif;
 import uo.ri.cws.application.service.invoice.InvoicingService;
 import uo.ri.util.exception.BusinessException;
@@ -15,8 +16,8 @@ public class InvoicingServiceImpl implements InvoicingService {
 
 	@Override
 	public InvoiceDto create(List<String> workOrderIds) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		CreateInvoice create = new CreateInvoice(workOrderIds);
+		return cmdEx.execute(create);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import uo.ri.cws.application.service.mechanic.crud.commands.DeleteMechanic;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListAllMechanics;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanic;
 import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanicByNif;
+import uo.ri.cws.application.service.mechanic.crud.commands.ListMechanicWithValidContract;
 import uo.ri.cws.application.service.mechanic.crud.commands.UpdateMechanic;
 import uo.ri.util.exception.BusinessException;
 
@@ -62,6 +63,13 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 		
 		ListMechanicByNif lnif = new ListMechanicByNif(nif);
 		return cmdEx.execute(lnif);
+	}
+
+	@Override
+	public List<MechanicDto> ListMechanicWithValidContract() throws BusinessException {
+		ListMechanicWithValidContract lmvc = new ListMechanicWithValidContract();
+		return cmdEx.execute(lmvc);
+		
 	}
 
 

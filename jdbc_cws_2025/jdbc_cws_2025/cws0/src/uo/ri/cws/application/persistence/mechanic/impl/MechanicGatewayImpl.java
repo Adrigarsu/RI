@@ -48,27 +48,42 @@ public class MechanicGatewayImpl implements MechanicGateway {
 	}
 
 	@Override
-	public void remove(String  id) throws PersistenceException {
-		try {
-		Connection c = Jdbc.getCurrentConnection();
-		      try (PreparedStatement pst = c
-		              .prepareStatement(Queries.getSQLSentence("TMECHANICS_DELETE"))) {
-		          pst.setString(1, id);
-		          pst.executeUpdate();
-		      }
-		
-		  } catch (SQLException e) {
-		      throw new RuntimeException(e);
-		  }
-		
+	public Optional<MechanicRecord> findById(String id) throws PersistenceException {
+	    
+	    try (Connection c = Jdbc.createThreadConnection()) { 
+	        try (PreparedStatement pst = c.prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDBYID"))) {
+	            pst.setString(1, id);
+	            try (ResultSet rs = pst.executeQuery()) {
+	                if (rs.next()) {
+	                    return Optional.of(MechanicRecordAssembler.toRecord(rs));
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new PersistenceException(e);
+	    }
+	    
+	    return Optional.empty();
+	}
 
+	// MODIFICA remove:
+	@Override
+	public void remove(String id) throws PersistenceException {
+	    try (Connection c = Jdbc.createThreadConnection()) { // ✅ CAMBIADO
+	        try (PreparedStatement pst = c.prepareStatement(Queries.getSQLSentence("TMECHANICS_DELETE"))) {
+	            pst.setString(1, id);
+	            pst.executeUpdate();
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException(e);
+	    }
 	}
 
 	@Override
 	public void update(MechanicRecord t) throws PersistenceException {
 		// Process
         try {
-        	Connection c = Jdbc.getCurrentConnection();
+        	Connection c = Jdbc.createThreadConnection();
             try (PreparedStatement pst = c
                     .prepareStatement(Queries.getSQLSentence("TMECHANICS_UPDATE"))) {
                 pst.setString(1, t.name);
@@ -85,27 +100,7 @@ public class MechanicGatewayImpl implements MechanicGateway {
 
 	}
 
-	@Override
-	public Optional<MechanicRecord> findById(String id) throws PersistenceException {
-		
-		 try  {
-		        Connection c = Jdbc.getCurrentConnection();
-		        try (PreparedStatement pst = c
-		                .prepareStatement(Queries.getSQLSentence("TMECHANICS_FINDBYID"))) {
-		            pst.setString(1, id);
-		            try (ResultSet rs = pst.executeQuery()) {
-		                if (rs.next()) {
-		                    return Optional.of(MechanicRecordAssembler.toRecord(rs));
-		                }
-		            }
-		        }
-		    } catch (SQLException e) {
-		        throw new PersistenceException(e);
-		    }
-		    
-		    return Optional.empty();
-	}
-
+	
 	@Override
 	public List<MechanicRecord> findAll() throws PersistenceException {
 	    List<MechanicRecord> mechanics = new ArrayList<>();
@@ -149,6 +144,25 @@ public class MechanicGatewayImpl implements MechanicGateway {
             throw new PersistenceException(e);
         }
 		return om;
+	}
+
+	@Override
+	public List<MechanicRecord> findMechanicsWithValidContract() {
+		List<MechanicRecord> mechanics = new ArrayList<>();
+	    try (Connection c = Jdbc.createThreadConnection()) {
+	        try (PreparedStatement pst = c.prepareStatement(
+	                Queries.getSQLSentence("TMECHANICS_FIND_WITH_VALID_CONTRACT"))) {
+	            
+	            try (ResultSet rs = pst.executeQuery()) {
+	                while (rs.next()) {
+	                    mechanics.add(MechanicRecordAssembler.toRecord(rs));
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new PersistenceException(e);
+	    }
+	    return mechanics;
 	}
 
 

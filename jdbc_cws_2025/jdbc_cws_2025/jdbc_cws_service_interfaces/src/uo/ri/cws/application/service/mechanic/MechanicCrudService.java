@@ -80,7 +80,14 @@ public interface MechanicCrudService {
 		public String nif;
 		public String name;
 		public String surname;
+		
+		@Override
+	    public String toString() {
+			return name + " " + surname + "  -  " + nif + "  -  " + id;
+	    }
 	}
+
+	List<MechanicDto> ListMechanicWithValidContract() throws BusinessException;
 
 
 }
